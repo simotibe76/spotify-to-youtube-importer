@@ -1,0 +1,494 @@
+{
+  "playlists": [
+    {
+      "name": "Road to Pigarelli 2025",
+      "lastModifiedDate": "2025-02-01",
+      "items": [
+        {
+          "track": {
+            "trackName": "La pastora",
+            "artistName": "Coro Della Sat",
+            "albumName": "Canti di Montagna",
+            "trackUri": "spotify:track:1M6CfqhFlyKRa2pbJgKosr"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "La mia bela la mi aspeta",
+            "artistName": "Coro Della Sat",
+            "albumName": "Canti degli Alpini",
+            "trackUri": "spotify:track:1YEq9nKqwQoT1o5ZKRnwb0"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "Ta-pum!",
+            "artistName": "Coro Della Sat",
+            "albumName": "Canti degli Alpini",
+            "trackUri": "spotify:track:16mgnJ1g9wdFD1B53SRKSk"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "Stille Nacht - Austria Canto Natalizio",
+            "artistName": "Coro Della Sat",
+            "albumName": "Coro Sat",
+            "trackUri": "spotify:track:7AdzGNP5MTeKazgz8Zmexl"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "Adeste Fideles",
+            "artistName": "Coro Del Monte Cauriol",
+            "albumName": "I canti di Natale",
+            "trackUri": "spotify:track:2K4A67GqQ9AxCeP9lS9Eh9"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "La Bela Giardiniera",
+            "artistName": "Coro A.N.A. Di Milano",
+            "albumName": "Storie D'amore, Di Lavoro E Di Guerra",
+            "trackUri": "spotify:track:6aRe1Zl7AzIdxsr0wROsuY"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "In cil e je une stele",
+            "artistName": "Coro Della Sat",
+            "albumName": "Coro Della Sat 1964",
+            "trackUri": "spotify:track:4PmWt4UNKUl8N5PG9hxwki"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        },
+        {
+          "track": {
+            "trackName": "Era sera",
+            "artistName": "Coro Della Sat",
+            "albumName": "Coro Della Sat 2013",
+            "trackUri": "spotify:track:6mDGEkBeFkBiCzHbeC5WaI"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2025-02-01"
+        }
+      ],
+      "description": null,
+      "numberOfFollowers": 1
+    },
+    {
+      "name": "Zeno",
+      "lastModifiedDate": "2024-06-03",
+      "items": [
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "1- Prefazione",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:1YnL84tsCzIc3UZvAuYJ1y"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "2- Preambolo",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:6kZbFzBO2ZYt2dkg5bLste"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "3- Il Fumo",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:2MlKRdFzQfE9sVa8PYJRMi"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "4- La Morte di Mio Padre",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:7dnsOP5zm2eceQXpJygi7f"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "5- La Storia del Mio Matrimonio",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:6RV4OlgrkFvlRAPOi5AEaf"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "6- La Moglie e l'Amante",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:5lsXFVBIGrE9EgXUXd1FCL"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "7- La Moglie e l'Amante Parte 2",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:6CtPyYUCfeC8UOb4BbiIEY"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "8- Storia di un'Associazione Commerciale",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:4kz4VTvbXSdH3RewrxmjSI"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "9- Storia di un'Associazione Commerciale - Parte 2",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:2pORaY50GXurL5jqDrmrD6"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "10 Psico-Analisi",
+            "showName": "La Coscienza di Zeno - Italo Svevo",
+            "episodeUri": "spotify:episode:3O3Q0xL3SEw97NYUL77qTH"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-06-03"
+        }
+      ],
+      "description": null,
+      "numberOfFollowers": 0
+    },
+    {
+      "name": "Tiktok",
+      "lastModifiedDate": "2024-04-14",
+      "items": [
+        {
+          "track": {
+            "trackName": "Interior Crocodile Alligator",
+            "artistName": "Chip Tha Ripper",
+            "albumName": "Interior Crocodile Alligator",
+            "trackUri": "spotify:track:6OfMguZO7yQBFquseyKVRm"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-08-24"
+        },
+        {
+          "track": {
+            "trackName": "Como Llora",
+            "artistName": "Juanfran",
+            "albumName": "Como Llora",
+            "trackUri": "spotify:track:52zq2a71SGs3f1vJuv59ui"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-08-24"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "Ep.5: LEGNANO (r.i.p Germania)",
+            "showName": "Le Caporetto degli altri",
+            "episodeUri": "spotify:episode:22iP3hdH9gwA0J8BnjXSJu"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-04-14"
+        }
+      ],
+      "description": null,
+      "numberOfFollowers": 0
+    },
+    {
+      "name": "Scelti dalla radio",
+      "lastModifiedDate": "2024-04-14",
+      "items": [
+        {
+          "track": {
+            "trackName": "Ridere",
+            "artistName": "Pinguini Tattici Nucleari",
+            "albumName": "Fuori dall'Hype Ringo Starr",
+            "trackUri": "spotify:track:5LZVK19ieaV8Mk9FsqTL3F"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2021-10-23"
+        },
+        {
+          "track": {
+            "trackName": "Toy Boy",
+            "artistName": "Colapesce",
+            "albumName": "I Mortali²",
+            "trackUri": "spotify:track:6TgDrpzG6iMAq7fsVtH41q"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2021-10-23"
+        },
+        {
+          "track": {
+            "trackName": "MAKUMBA",
+            "artistName": "Noemi",
+            "albumName": "Metamorfosi",
+            "trackUri": "spotify:track:2opRyiaqpnQCH0jfCY9Wjd"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2021-08-28"
+        },
+        {
+          "track": {
+            "trackName": "Dov'è",
+            "artistName": "Le Vibrazioni",
+            "albumName": "Dov'è",
+            "trackUri": "spotify:track:0kyDrvGlKCTwnRQHJ30s31"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-13"
+        },
+        {
+          "track": {
+            "trackName": "Andromeda (feat. Madame) - RMX",
+            "artistName": "Elodie",
+            "albumName": "This Is Elodie",
+            "trackUri": "spotify:track:1a3cWK0Mm1hOR9hKI9ngrz"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-13"
+        },
+        {
+          "track": {
+            "trackName": "Calma",
+            "artistName": "Gaia",
+            "albumName": "Nuova Genesi",
+            "trackUri": "spotify:track:76BJmO6lGsLTvj6nen2b3r"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-10"
+        },
+        {
+          "track": {
+            "trackName": "Supercalifragili (feat. Annalisa & Luca Di Stefano)",
+            "artistName": "J-AX",
+            "albumName": "ReAle",
+            "trackUri": "spotify:track:6ExLQlakJDGUxN5O567dAt"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-10"
+        },
+        {
+          "track": {
+            "trackName": "In questa città",
+            "artistName": "Max Pezzali",
+            "albumName": "In questa città",
+            "trackUri": "spotify:track:585ulENUQU7VIopVRL3eks"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-10"
+        },
+        {
+          "track": {
+            "trackName": "Ringo Starr",
+            "artistName": "Pinguini Tattici Nucleari",
+            "albumName": "Fuori dall'Hype Ringo Starr",
+            "trackUri": "spotify:track:5yfE6GXTuJaAlepKoE0wJE"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-10"
+        },
+        {
+          "track": {
+            "trackName": "Algoritmo (feat. Shaggy) (with Don Joe)",
+            "artistName": "Willie Peyote",
+            "albumName": "Algoritmo (feat. Shaggy) (with Don Joe)",
+            "trackUri": "spotify:track:0k7d6ITobMVmfou8NdQfNC"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-10"
+        },
+        {
+          "track": {
+            "trackName": "Andromeda (feat. Madame) - RMX",
+            "artistName": "Elodie",
+            "albumName": "This Is Elodie",
+            "trackUri": "spotify:track:1a3cWK0Mm1hOR9hKI9ngrz"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2020-06-10"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "Ep.5: LEGNANO (r.i.p Germania)",
+            "showName": "Le Caporetto degli altri",
+            "episodeUri": "spotify:episode:22iP3hdH9gwA0J8BnjXSJu"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-04-14"
+        }
+      ],
+      "description": null,
+      "numberOfFollowers": 0
+    },
+    {
+      "name": "Acaso",
+      "lastModifiedDate": "2024-04-14",
+      "items": [
+        {
+          "track": {
+            "trackName": "Rose viola",
+            "artistName": "Ghemon",
+            "albumName": "Rose viola",
+            "trackUri": "spotify:track:4MDRt2vfYMkXCLXAVgnWJk"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2019-08-07"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "Ep.5: LEGNANO (r.i.p Germania)",
+            "showName": "Le Caporetto degli altri",
+            "episodeUri": "spotify:episode:22iP3hdH9gwA0J8BnjXSJu"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-04-14"
+        }
+      ],
+      "description": null,
+      "numberOfFollowers": 0
+    },
+    {
+      "name": "Hh",
+      "lastModifiedDate": "2024-04-14",
+      "items": [
+        {
+          "track": {
+            "trackName": "La guerra di Piero",
+            "artistName": "Fabrizio De André",
+            "albumName": "Fabrizio De André Opere Complete",
+            "trackUri": "spotify:track:1lNop22I4dLz5MYuc60fUX"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2018-06-30"
+        },
+        {
+          "track": {
+            "trackName": "Fotografia (feat. Francesca Michielin & Fabri Fibra)",
+            "artistName": "Carl Brave",
+            "albumName": "Notti Brave",
+            "trackUri": "spotify:track:3fw3W15QK6a9UxJGgndtYu"
+          },
+          "episode": null,
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2018-07-14"
+        },
+        {
+          "track": null,
+          "episode": {
+            "episodeName": "Ep.5: LEGNANO (r.i.p Germania)",
+            "showName": "Le Caporetto degli altri",
+            "episodeUri": "spotify:episode:22iP3hdH9gwA0J8BnjXSJu"
+          },
+          "audiobook": null,
+          "localTrack": null,
+          "addedDate": "2024-04-14"
+        }
+      ],
+      "description": null,
+      "numberOfFollowers": 0
+    }
+  ]
+}
