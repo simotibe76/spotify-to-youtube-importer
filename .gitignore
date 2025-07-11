@@ -1,0 +1,14 @@
+# Dati sensibili
+client_secret.json
+token.json
+
+# Ambienti virtuali
+ytvenv/
+venv/
+
+# Cache Python
+__pycache__/
+*.pyc
+
+# Log
+*.log
