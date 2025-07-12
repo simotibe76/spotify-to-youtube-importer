@@ -1,0 +1,49 @@
+name: Spotify to YouTube Sync
+
+on:
+  schedule:
+    # Esegui ogni giorno alle 03:00 UTC (cambia l'orario se necessario, ricorda il fuso orario!)
+    - cron: '0 3 * * *'
+  workflow_dispatch:
+    # Permette di lanciare il workflow manualmente dalla scheda Actions
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v4
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.9' # Puoi specificare la versione di Python che usi (es. '3.9', '3.10', '3.11')
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install your-required-libraries-here # Ad es. requests, google-api-python-client, ecc.
+        # Se hai un requirements.txt, puoi usare: pip install -r requirements.txt
+
+    - name: Run Spotify to YouTube script
+      env:
+        # Inietta la tua chiave API di YouTube come variabile d'ambiente
+        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+      run: |
+        # Esegui il tuo script Python
+        # Assicurati che il percorso sia corretto rispetto alla root del tuo repository
+        python my_spotify_youtube_script/main.py
+
+    # Opzionale: Se il tuo script aggiorna il file di appoggio e vuoi committarlo
+    - name: Commit updated processed_songs.json
+      # Esegui questo passo SOLO se il tuo script modifica un file che vuoi salvare
+      # e non hai un modo migliore per gestire il file di appoggio
+      run: |
+        git config user.name "GitHub Actions"
+        git config user.email "actions@github.com"
+        git add my_spotify_youtube_script/processed_songs.json # Sostituisci con il nome del tuo file di appoggio
+        git commit -m "Update processed songs file [skip ci]" || echo "No changes to commit"
+        git push || echo "No new commits to push"
+      # Questo step potrebbe fallire se non ci sono cambiamenti o se ci sono conflitti
+      # Considera alternative per il file di appoggio se diventa problematico
