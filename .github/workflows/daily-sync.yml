@@ -2,48 +2,58 @@ name: Spotify to YouTube Sync
 
 on:
   schedule:
-    # Esegui ogni giorno alle 03:00 UTC (cambia l'orario se necessario, ricorda il fuso orario!)
+    # Esegui ogni giorno alle 03:00 UTC (Coordinated Universal Time).
+    # Se vuoi ad esempio che si esegua alle 10:00 CEST (Italia), dovresti calcolare
+    # l'orario UTC. L'Italia è CEST (+2h rispetto a UTC in estate).
+    # Quindi, 10:00 CEST - 2h = 08:00 UTC. La riga sarebbe '0 8 * * *'.
+    # Puoi modificare l'espressione cron qui sotto:
     - cron: '0 3 * * *'
   workflow_dispatch:
-    # Permette di lanciare il workflow manualmente dalla scheda Actions
+    # Questa riga aggiunge un pulsante "Run workflow" nella scheda Actions del tuo repository.
+    # È molto utile per testare il workflow manualmente in qualsiasi momento.
 
 jobs:
   build:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-latest # Il job verrà eseguito su una macchina virtuale Ubuntu
 
     steps:
-    - name: Checkout repository
+    - name: Checkout repository # Clona il tuo repository GitHub sulla macchina virtuale
       uses: actions/checkout@v4
 
-    - name: Set up Python
+    - name: Set up Python # Imposta l'ambiente Python sulla macchina virtuale
       uses: actions/setup-python@v5
       with:
-        python-version: '3.9' # Puoi specificare la versione di Python che usi (es. '3.9', '3.10', '3.11')
+        python-version: '3.9' # Puoi specificare la versione di Python che usi nel tuo ambiente locale
+                              # Ad esempio, '3.10', '3.11' o anche '3.x' per l'ultima 3.x
 
-    - name: Install dependencies
+    - name: Install dependencies # Installa tutte le librerie Python elencate nel tuo requirements.txt
       run: |
         python -m pip install --upgrade pip
-        pip install your-required-libraries-here # Ad es. requests, google-api-python-client, ecc.
-        # Se hai un requirements.txt, puoi usare: pip install -r requirements.txt
+        pip install -r requirements.txt
 
-    - name: Run Spotify to YouTube script
+    - name: Run Spotify to YouTube script # Esegue il tuo script principale Python
       env:
-        # Inietta la tua chiave API di YouTube come variabile d'ambiente
-        YOUTUBE_API_KEY: ${{ secrets.YOUTUBE_API_KEY }}
+        # Qui vengono passati i tuoi GitHub Secrets come variabili d'ambiente.
+        # Il tuo script `spotify_to_youtube.py` leggerà questi valori.
+        GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+        GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+        GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
       run: |
-        # Esegui il tuo script Python
-        # Assicurati che il percorso sia corretto rispetto alla root del tuo repository
-        python my_spotify_youtube_script/main.py
+        # Esegui lo script. Poiché tutti i tuoi file sono nella root del repository,
+        # il percorso è diretto.
+        python spotify_to_youtube.py
 
-    # Opzionale: Se il tuo script aggiorna il file di appoggio e vuoi committarlo
-    - name: Commit updated processed_songs.json
-      # Esegui questo passo SOLO se il tuo script modifica un file che vuoi salvare
-      # e non hai un modo migliore per gestire il file di appoggio
+    - name: Commit updated youtube_links.txt # Salva le modifiche al file di stato
+      # Questo passaggio è CRUCIALE per garantire che il tuo file `youtube_links.txt`
+      # (il tuo "file di appoggio" che tiene traccia dei brani processati)
+      # venga aggiornato e salvato nel repository dopo ogni esecuzione dello script.
+      # In questo modo, lo script riprenderà da dove ha lasciato il giorno successivo.
       run: |
-        git config user.name "GitHub Actions"
-        git config user.email "actions@github.com"
-        git add my_spotify_youtube_script/processed_songs.json # Sostituisci con il nome del tuo file di appoggio
+        git config user.name "GitHub Actions" # Configura l'utente Git per il commit
+        git config user.email "actions@github.com" # Email per il commit
+        git add youtube_links.txt # Aggiunge il file ai cambiamenti da committare
+        # Esegue il commit. "[skip ci]" evita che questo commit inneschi un nuovo workflow
         git commit -m "Update processed songs file [skip ci]" || echo "No changes to commit"
-        git push || echo "No new commits to push"
-      # Questo step potrebbe fallire se non ci sono cambiamenti o se ci sono conflitti
-      # Considera alternative per il file di appoggio se diventa problematico
+        git push || echo "No new commits to push" # Carica i cambiamenti sul repository
+      # Le clausole '|| echo ...' sono per prevenire il fallimento del job se
+      # non ci sono modifiche al file o se il push non è necessario (es. nessun commit).
