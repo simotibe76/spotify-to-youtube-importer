@@ -2,15 +2,14 @@ import os
 import json
 import time
 from googleapiclient.discovery import build
-from google.oauth2.credentials import Credentials
+# from google_auth_oauthlib.flow import InstalledAppFlow # Non più necessaria
 from google.auth.transport.requests import Request
+from google.oauth2.credentials import Credentials
 
-# Non useremo più client_secret.json e token.json in modo diretto nel cloud
-# I SCOPES rimangono gli stessi
 SCOPES = ["https://www.googleapis.com/auth/youtube"]
 LINKS_FILE = "youtube_links.txt"
-PLAYLISTS_FILE = "Playlist1.json"
-FAVORITES_FILE = "YourLibrary.json"
+PLAYLISTS_FILE = "Playlist1.json" # Assicurati che questo file sia caricato nel repo GitHub
+FAVORITES_FILE = "YourLibrary.json" # Assicurati che questo file sia caricato nel repo GitHub
 
 def authenticate_youtube():
     # Recupera le credenziali dai Secrets di GitHub (variabili d'ambiente)
@@ -45,8 +44,120 @@ def authenticate_youtube():
 
     return build("youtube", "v3", credentials=creds)
 
-# Il resto del tuo script (create_youtube_playlist, search_youtube_video, add_video_to_playlist,
-# load_existing_links, save_link, process_playlist, main) rimane invariato.
 
-# Assicurati che le parti del tuo script che gestiscono FILES_FILE (youtube_links.txt)
-# siano robusto nel leggere/scrivere.
+def create_youtube_playlist(youtube, playlist_name):
+    request = youtube.playlists().insert(
+        part="snippet,status",
+        body={
+            "snippet": {
+                "title": playlist_name,
+                "description": f"Importata da Spotify: {playlist_name}",
+            },
+            "status": {
+                "privacyStatus": "public"
+            }
+        },
+    )
+    response = request.execute()
+    return response["id"]
+
+def search_youtube_video(youtube, query):
+    try:
+        request = Youtube().list(
+            part="snippet",
+            maxResults=1,
+            q=query,
+            type="video"
+        )
+        response = request.execute()
+        items = response.get("items", [])
+        if not items:
+            print(f"Nessun risultato per '{query}'")
+            return None
+        return items[0]["id"]["videoId"]
+    except Exception as e:
+        print(f"Errore nella ricerca YouTube per '{query}': {e}")
+        return None
+
+def add_video_to_playlist(youtube, playlist_id, video_id):
+    request = youtube.playlistItems().insert(
+        part="snippet",
+        body={
+            "snippet": {
+                "playlistId": playlist_id,
+                "resourceId": {
+                    "kind": "youtube#video",
+                    "videoId": video_id
+                }
+            }
+        },
+    )
+    request.execute()
+
+def load_existing_links():
+    if os.path.exists(LINKS_FILE):
+        with open(LINKS_FILE, "r") as f:
+            return set(line.strip() for line in f.readlines())
+    return set()
+
+def save_link(link):
+    with open(LINKS_FILE, "a") as f:
+        f.write(link + "\n")
+
+def process_playlist(youtube, playlist_name, tracks, existing_links):
+    print(f"\n▶ Creazione playlist: {playlist_name}")
+    playlist_id = create_youtube_playlist(youtube, playlist_name)
+    # Contatore per il limite giornaliero
+    processed_today = 0
+    MAX_DAILY_QUOTA = 30 # Il tuo limite di 30 brani al giorno
+
+    for track in tracks:
+        # Se abbiamo raggiunto il limite giornaliero, interrompi
+        if processed_today >= MAX_DAILY_QUOTA:
+            print(f"⚠️ Raggiunto il limite di {MAX_DAILY_QUOTA} brani per oggi. Riprenderò domani.")
+            break
+
+        title = f"{track['trackName']} {track['artistName']}"
+        if title in existing_links:
+            print(f"⏩ Saltato (già importato): {title}")
+            continue
+        
+        print(f"🔍 Ricerca: {title}")
+        video_id = search_youtube_video(youtube, title)
+        
+        if video_id:
+            add_video_to_playlist(youtube, playlist_id, video_id)
+            save_link(title)
+            print(f"✅ Aggiunto: {title}")
+            processed_today += 1 # Incrementa il contatore solo se aggiunto
+            time.sleep(1) # Rallenta le richieste per evitare sovraccarico API
+        else:
+            print(f"❌ Non trovato: {title}")
+
+def main():
+    print("🚀 Avvio l'importazione...")
+    youtube = authenticate_youtube()
+    existing_links = load_existing_links()
+
+    # --- Importa Playlist normali ---
+    with open(PLAYLISTS_FILE, "r") as f:
+        playlists_data = json.load(f)
+
+    for playlist in playlists_data["playlists"]: # Rimosso [:1] per processare tutte le playlist
+        playlist_name = playlist.get("name", "Senza nome")
+        items = playlist.get("items", [])
+        tracks = [item["track"] for item in items if item.get("track")]
+        if tracks:
+            process_playlist(youtube, playlist_name, tracks, existing_links)
+
+    # --- Importa brani preferiti ---
+    with open(FAVORITES_FILE, "r") as f:
+        library_data = json.load(f)
+
+    favorite_tracks = library_data.get("tracks", [])
+    if favorite_tracks:
+        simplified = [{"trackName": t["trackName"], "artistName": t["artistName"]} for t in favorite_tracks]
+        process_playlist(youtube, "I miei preferiti di Spotify", simplified, existing_links)
+
+if __name__ == "__main__":
+    main()
