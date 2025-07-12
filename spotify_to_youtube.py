@@ -143,7 +143,7 @@ def main():
     with open(PLAYLISTS_FILE, "r") as f:
         playlists_data = json.load(f)
 
-    for playlist in playlists_data["playlists"]: # Rimosso [:1] per processare tutte le playlist
+    for playlist in playlists_data["playlists"][:1]: # Rimosso [:1] per processare tutte le playlist
         playlist_name = playlist.get("name", "Senza nome")
         items = playlist.get("items", [])
         tracks = [item["track"] for item in items if item.get("track")]
