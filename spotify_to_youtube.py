@@ -55,7 +55,8 @@ def get_or_create_youtube_playlist(youtube_service, playlist_name):
     try:
         request = youtube_service.playlists().list(
             part="snippet",
-            mine=True # Cerca nelle playlist dell'utente autenticato
+            mine=True, # Cerca nelle playlist dell'utente autenticato
+            maxResults=50 # Ottieni fino a 50 playlist per la ricerca
         )
         response = request.execute()
 
@@ -88,6 +89,27 @@ def get_or_create_youtube_playlist(youtube_service, playlist_name):
     except Exception as e:
         print(f"❌ Errore durante la creazione della playlist '{playlist_name}': {e}")
         return None # Ritorna None se la creazione fallisce
+
+def get_playlist_video_ids(youtube_service, playlist_id):
+    """
+    Recupera tutti gli ID dei video presenti in una data playlist.
+    """
+    video_ids = set()
+    next_page_token = None
+    while True:
+        request = youtube_service.playlistItems().list(
+            part="contentDetails",
+            playlistId=playlist_id,
+            maxResults=50, # Max risultati per pagina
+            pageToken=next_page_token
+        )
+        response = request.execute()
+        for item in response.get('items', []):
+            video_ids.add(item['contentDetails']['videoId'])
+        next_page_token = response.get('nextPageToken')
+        if not next_page_token:
+            break
+    return video_ids
 
 def search_youtube_video(youtube_service, query):
     """
@@ -130,7 +152,11 @@ def add_video_to_playlist(youtube_service, playlist_id, video_id):
         )
         request.execute()
     except Exception as e:
-        print(f"⚠️ Errore durante l'aggiunta del video {video_id} alla playlist {playlist_id}: {e}")
+        # Codice di errore 409 indica un duplicato (video già nella playlist)
+        if "409" in str(e) and "playlistItemDuplicate" in str(e):
+            print(f"ℹ️ Video {video_id} già presente nella playlist {playlist_id}. Saltato.")
+        else:
+            print(f"⚠️ Errore durante l'aggiunta del video {video_id} alla playlist {playlist_id}: {e}")
 
 def load_existing_links():
     """
@@ -148,19 +174,23 @@ def save_link(link):
     with open(LINKS_FILE, "a") as f:
         f.write(link + "\n")
 
-def process_playlist(youtube_service, playlist_name, tracks_data, existing_links):
+def process_playlist(youtube_service, playlist_name, tracks_data, existing_links_file):
     """
     Processa una lista di brani, creandone/trovandone una playlist su YouTube
     e aggiungendo i brani, rispettando la quota giornaliera.
     """
     print(f"\n▶ Elaborazione playlist: {playlist_name}")
     
-    # Usa la nuova funzione per ottenere o creare l'ID della playlist
+    # Ottieni o crea l'ID della playlist
     playlist_id = get_or_create_youtube_playlist(youtube_service, playlist_name)
     
     if not playlist_id:
         print(f"⚠️ Impossibile ottenere o creare la playlist '{playlist_name}'. Saltando l'elaborazione dei brani.")
         return # Esci se l'ID della playlist non è disponibile
+
+    # Recupera gli ID dei video già presenti nella playlist YouTube
+    existing_playlist_video_ids = get_playlist_video_ids(youtube_service, playlist_id)
+    print(f"Trovati {len(existing_playlist_video_ids)} video già nella playlist YouTube '{playlist_name}'.")
 
     processed_today = 0
     MAX_DAILY_QUOTA = 30 # Il tuo limite di 30 brani al giorno
@@ -186,46 +216,52 @@ def process_playlist(youtube_service, playlist_name, tracks_data, existing_links
             print(f"⏩ Saltato (dati brano mancanti o formato sconosciuto): {track_item}")
             continue
 
-        title = f"{track_name} {artist_name}"
+        title_for_file = f"{track_name} - {artist_name}" # Formato più robusto per il file di appoggio
         
-        if title in existing_links:
-            print(f"⏩ Saltato (già importato): {title}")
+        # Primo controllo: se il brano è già nel nostro file di appoggio (evita ricerche API)
+        if title_for_file in existing_links_file:
+            print(f"⏩ Saltato (già importato nel file di appoggio): {title_for_file}")
             continue
         
-        print(f"🔍 Ricerca: {title}")
-        video_id = search_youtube_video(youtube_service, title)
+        print(f"🔍 Ricerca: {title_for_file}")
+        video_id = search_youtube_video(youtube_service, title_for_file)
         
         if video_id:
+            # Secondo controllo: se il video è già nella playlist YouTube
+            if video_id in existing_playlist_video_ids:
+                print(f"⏩ Saltato (video {video_id} già presente nella playlist YouTube '{playlist_name}'): {title_for_file}")
+                save_link(title_for_file) # Salva comunque nel file di appoggio per non cercarlo più
+                continue
+            
             add_video_to_playlist(youtube_service, playlist_id, video_id)
-            save_link(title)
-            print(f"✅ Aggiunto: {title}")
+            save_link(title_for_file)
+            print(f"✅ Aggiunto: {title_for_file}")
             processed_today += 1
             time.sleep(1) # Rallenta le richieste per evitare sovraccarico API
         else:
-            print(f"❌ Non trovato: {title}")
+            print(f"❌ Non trovato su YouTube: {title_for_file}")
 
 def main():
     print("🚀 Avvio l'importazione...")
     youtube_service = authenticate_youtube()
-    existing_links = load_existing_links()
+    existing_links_file = load_existing_links()
 
     # --- Importa Playlist normali ---
     with open(PLAYLISTS_FILE, "r") as f:
         playlists_data = json.load(f)
 
-    # Processa tutte le playlist. Se vuoi limitare a una sola per il test, non mettere il commento a [:1]
+    # Processa tutte le playlist
     for playlist in playlists_data.get("playlists", []):
         playlist_name = playlist.get("name", "Senza nome")
         items = playlist.get("items", [])
         
-        # Estrai solo gli elementi che sono brani e hanno le chiavi corrette (trackName, artistName)
         tracks_to_process = [
             item["track"] for item in items 
             if item.get("track") and isinstance(item["track"], dict) and "trackName" in item["track"] and "artistName" in item["track"]
         ]
         
         if tracks_to_process:
-            process_playlist(youtube_service, playlist_name, tracks_to_process, existing_links)
+            process_playlist(youtube_service, playlist_name, tracks_to_process, existing_links_file)
         else:
             print(f"ℹ️ Nessun brano valido trovato per la playlist '{playlist_name}'. Potrebbe contenere solo episodi o dati mancanti.")
 
@@ -235,14 +271,13 @@ def main():
 
     favorite_tracks_data = library_data.get("tracks", [])
     
-    # Estrai solo gli elementi che sono brani e hanno le chiavi corrette (track, artist)
     tracks_to_process_favorites = [
         t for t in favorite_tracks_data 
         if t.get("track") and t.get("artist")
     ]
 
     if tracks_to_process_favorites:
-        process_playlist(youtube_service, "Brani preferiti di Spotify", tracks_to_process_favorites, existing_links)
+        process_playlist(youtube_service, "Brani preferiti di Spotify", tracks_to_process_favorites, existing_links_file)
     else:
         print("ℹ️ Nessun brano valido trovato in YourLibrary.json per l'importazione dei preferiti.")
 
@@ -250,3 +285,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
