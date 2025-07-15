@@ -63,6 +63,7 @@ def get_or_create_youtube_playlist(youtube_service, playlist_name):
         for item in response.get('items', []):
             if item['snippet']['title'] == playlist_name:
                 print(f"✅ Trovata playlist esistente: '{playlist_name}' (ID: {item['id']})")
+                time.sleep(2) # AGGIUNTO: Breve ritardo dopo aver trovato una playlist esistente
                 return item['id']
     except Exception as e:
         print(f"⚠️ Errore durante la ricerca della playlist '{playlist_name}': {e}")
@@ -85,6 +86,7 @@ def get_or_create_youtube_playlist(youtube_service, playlist_name):
         )
         response = request.execute()
         print(f"🎉 Playlist '{playlist_name}' creata con successo (ID: {response['id']})")
+        time.sleep(2) # AGGIUNTO: Breve ritardo dopo aver creato una nuova playlist
         return response["id"]
     except Exception as e:
         print(f"❌ Errore durante la creazione della playlist '{playlist_name}': {e}")
@@ -96,20 +98,24 @@ def get_playlist_video_ids(youtube_service, playlist_id):
     """
     video_ids = set()
     next_page_token = None
-    while True:
-        request = youtube_service.playlistItems().list(
-            part="contentDetails",
-            playlistId=playlist_id,
-            maxResults=50, # Max risultati per pagina
-            pageToken=next_page_token
-        )
-        response = request.execute()
-        for item in response.get('items', []):
-            video_ids.add(item['contentDetails']['videoId'])
-        next_page_token = response.get('nextPageToken')
-        if not next_page_token:
-            break
-    return video_ids
+    try: # Aggiunto try-except per catturare errori qui
+        while True:
+            request = youtube_service.playlistItems().list(
+                part="contentDetails",
+                playlistId=playlist_id,
+                maxResults=50, # Max risultati per pagina
+                pageToken=next_page_token
+            )
+            response = request.execute()
+            for item in response.get('items', []):
+                video_ids.add(item['contentDetails']['videoId'])
+            next_page_token = response.get('nextPageToken')
+            if not next_page_token:
+                break
+        return video_ids
+    except Exception as e:
+        print(f"❌ Errore critico durante il recupero dei video dalla playlist {playlist_id}: {e}")
+        return set() # Ritorna un set vuoto in caso di errore
 
 def search_youtube_video(youtube_service, query):
     """
@@ -285,3 +291,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
